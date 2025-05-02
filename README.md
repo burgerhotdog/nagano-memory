@@ -28,7 +28,7 @@ A fun memory game built with React and Material-UI where players need to remembe
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/nagano-memory.git
+git clone https://github.com/burgerhotdog/nagano-memory.git
 cd nagano-memory
 ```
 
