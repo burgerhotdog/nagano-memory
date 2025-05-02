@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Stack, Grid, Card, CardActionArea, Button, Typography, Box } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
 import { PlayArrow, Replay } from "@mui/icons-material";
-import MOLE_IMAGE from './assets/mole.webp';
+import { motion, AnimatePresence } from 'framer-motion';
+import MOLE_IMAGE from './assets/nagano.webp';
 
 const GRID_SIZE = 3;
-const ANIMATION_DURATION = 300; // Duration in milliseconds
+const ANIMATION_DURATION = 300;
 
 const App = () => {
   const [gameState, setGameState] = useState('ready');
@@ -17,7 +17,6 @@ const App = () => {
   const [clickedCells, setClickedCells] = useState([]);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Generate random sequence for the mole to appear
   const generateSequence = () => {
     const nextIndex = Math.floor(Math.random() * (GRID_SIZE * GRID_SIZE));
     return [...sequence, nextIndex];
