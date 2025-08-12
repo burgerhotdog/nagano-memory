@@ -42,31 +42,36 @@ export const useGameState = () => {
   }, [gameState, sequence]);
 
   const handleCellClick = (cellIndex) => {
-    if (gameState === 'copy' && !isAnimating) {
-      setIsAnimating(true);
-      const newPlayerSequence = [...playerSequence, cellIndex];
-      setPlayerSequence(newPlayerSequence);
-      setClickedCells([...clickedCells, cellIndex]);
-
-      const isCorrect = cellIndex === sequence[playerSequence.length];
-
-      setTimeout(() => {
-        setClickedCells(clickedCells.filter(cell => cell !== cellIndex));
-        setIsAnimating(false);
-
-        if (!isCorrect) {
-          const newHighScore = round > highScore ? round : highScore;
-          setHighScore(newHighScore);
-          saveHighScore(newHighScore);
-          setGameState('results');
-        } else if (newPlayerSequence.length === sequence.length) {
-          setTimeout(() => {
-            setRound(round + 1);
-            setGameState('ready');
-          }, ANIMATION_DURATION);
-        }
-      }, ANIMATION_DURATION);
+    if (gameState !== 'copy' || isAnimating || playerSequence.length >= sequence.length) {
+      return;
     }
+
+    setIsAnimating(true);
+    const newPlayerSequence = [...playerSequence, cellIndex];
+    setPlayerSequence(newPlayerSequence);
+    setClickedCells([...clickedCells, cellIndex]);
+
+    const isCorrect = cellIndex === sequence[playerSequence.length];
+
+    setTimeout(() => {
+      setClickedCells(clickedCells.filter(cell => cell !== cellIndex));
+
+      if (!isCorrect) {
+        const newHighScore = round > highScore ? round : highScore;
+        setHighScore(newHighScore);
+        saveHighScore(newHighScore);
+        setGameState('results');
+        setIsAnimating(false);
+      } else if (newPlayerSequence.length === sequence.length) {
+        setTimeout(() => {
+          setRound(round + 1);
+          setGameState('ready');
+          setIsAnimating(false);
+        }, ANIMATION_DURATION);
+      } else {
+        setIsAnimating(false);
+      }
+    }, ANIMATION_DURATION);
   };
 
   const resetGame = () => {
